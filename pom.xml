@@ -22,6 +22,34 @@
         <java.version>1.8</java.version>
     </properties>
 
+    <!--maven 多环境-->
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault> <!-- 为 true 表示，默认激活该 profile-->
+            </activation>
+
+            <properties> <!-- properties 里面可以添加自定义节点，如下添加了一个env节点 -->
+                <env>dev</env> <!-- 这个节点的值可以在maven的其他地方引用，可以简单理解为定义了一个叫env的变量 -->
+            </properties>
+        </profile>
+
+        <profile>
+            <id>test</id>
+            <properties>
+                <env>test</env>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>prod</id>
+            <properties>
+                <env>prod</env>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
         <!--web-->
         <dependency>
@@ -56,6 +84,25 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <!--先排除application开头的配置文件-->
+                    <exclude>application*.properties</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!--filtering 需要设置为 true，这样在include的时候，才会把配置文件中的@env@ 这个maven`变量`替换成当前环境的对应值-->
+                <filtering>true</filtering>
+                <includes>
+                    <!--引入所需环境的配置文件-->
+                    <include>application.properties</include>
+                    <include>application-${env}.properties</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
     <repositories>
