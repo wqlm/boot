@@ -21,3 +21,8 @@ spring-boot-starter-web 包含以下依赖
     - jackson
 - hibernate-validator(提供参数校验注解)
     - javax.validation (提供参数校验注解)
+
+## 1.0.2 
+- 添加 **mysql-connector-java** 和 **spring-boot-starter-jdbc** 依赖
+- 配置 mysql 数据库链接
+- 创建数据库和表
