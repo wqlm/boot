@@ -3,6 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <modules>
+        <module>boot-user</module>
+        <module>boot-common</module>
+    </modules>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -13,8 +18,9 @@
     <groupId>com.wqlm</groupId>
     <artifactId>boot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>boot</name>
-    <description>Spring Boot Demo</description>
+    <description>Spring Boot 种子项目</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -49,61 +55,6 @@
             </properties>
         </profile>
     </profiles>
-
-    <dependencies>
-        <!--web-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!--JDBC-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
-
-        <!--mysql-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-
-        <!--test-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <!--先排除application开头的配置文件-->
-                    <exclude>application*.properties</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <!--filtering 需要设置为 true，这样在include的时候，才会把配置文件中的@env@ 这个maven`变量`替换成当前环境的对应值-->
-                <filtering>true</filtering>
-                <includes>
-                    <!--引入所需环境的配置文件-->
-                    <include>application.properties</include>
-                    <include>application-${env}.properties</include>
-                </includes>
-            </resource>
-        </resources>
-    </build>
 
     <repositories>
         <repository>
