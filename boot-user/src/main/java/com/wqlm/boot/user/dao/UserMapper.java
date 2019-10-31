@@ -1,16 +1,7 @@
 package com.wqlm.boot.user.dao;
 
 import com.wqlm.boot.user.po.User;
-import java.util.List;
+import tk.mybatis.mapper.common.Mapper;
 
-public interface UserMapper {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(User record);
-
-    User selectByPrimaryKey(Integer id);
-
-    List<User> selectAll();
-
-    int updateByPrimaryKey(User record);
+public interface UserMapper extends Mapper<User> {
 }

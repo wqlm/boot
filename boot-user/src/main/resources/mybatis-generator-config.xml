@@ -13,9 +13,20 @@
         javaModelGenerator,sqlMapGenerator?,javaClientGenerator?,table+
     -->
     <context id="myContext" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!--配置是否使用 tk.mybatis 插件的注释，默认 true, 为true时 commentGenerator 中的配置不生效-->
+        <!--<property name="useMapperCommentGenerator" value="false"/>-->
 
         <!-- 这个插件给生成的Java模型对象增加了equals和hashCode方法 -->
         <!--<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>-->
+
+        <!--tk.mybatis 插件，用于生成通用 mapper-->
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <!--dao 要继承的接口-->
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <!--是否区分大小写，默认false-->
+            <property name="caseSensitive" value="true"/>
+        </plugin>
 
         <!-- 注释 -->
         <commentGenerator>

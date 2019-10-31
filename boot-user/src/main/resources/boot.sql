@@ -15,7 +15,7 @@ IF
 CREATE TABLE `user` (
 	`id` INT ( 11 ) NOT NULL AUTO_INCREMENT,
 	`user_name` VARCHAR ( 255 ) COLLATE utf8_bin NOT NULL,
-	`pasword` VARCHAR ( 255 ) COLLATE utf8_bin NOT NULL,
+	`password` VARCHAR ( 255 ) COLLATE utf8_bin NOT NULL,
 	`salt` VARCHAR ( 255 ) COLLATE utf8_bin NOT NULL,
 	PRIMARY KEY ( `id` ) 
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_bin;

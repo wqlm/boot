@@ -2,35 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wqlm.boot.user.dao.UserMapper">
     <resultMap id="BaseResultMap" type="com.wqlm.boot.user.po.User">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="user_name" jdbcType="VARCHAR" property="userName" />
-        <result column="pasword" jdbcType="VARCHAR" property="pasword" />
-        <result column="salt" jdbcType="VARCHAR" property="salt" />
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
     </resultMap>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete from user
-        where id = #{id,jdbcType=INTEGER}
-    </delete>
-    <insert id="insert" parameterType="com.wqlm.boot.user.po.User">
-        insert into user (id, user_name, pasword,
-        salt)
-        values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{pasword,jdbcType=VARCHAR},
-        #{salt,jdbcType=VARCHAR})
-    </insert>
-    <update id="updateByPrimaryKey" parameterType="com.wqlm.boot.user.po.User">
-        update user
-        set user_name = #{userName,jdbcType=VARCHAR},
-        pasword = #{pasword,jdbcType=VARCHAR},
-        salt = #{salt,jdbcType=VARCHAR}
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select id, user_name, pasword, salt
-        from user
-        where id = #{id,jdbcType=INTEGER}
-    </select>
-    <select id="selectAll" resultMap="BaseResultMap">
-        select id, user_name, pasword, salt
-        from user
-    </select>
 </mapper>
