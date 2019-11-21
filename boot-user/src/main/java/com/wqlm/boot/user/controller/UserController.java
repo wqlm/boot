@@ -2,6 +2,9 @@ package com.wqlm.boot.user.controller;
 
 import com.wqlm.boot.user.dto.RegisterDTO;
 import com.wqlm.boot.user.service.UserService;
+import com.wqlm.boot.user.vo.result.FailResult;
+import com.wqlm.boot.user.vo.result.Result;
+import com.wqlm.boot.user.vo.result.SuccessResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,11 +20,11 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public String register(@Valid RegisterDTO dto) {
-       boolean result = userService.register(dto);
-       if(result){
-           return "注册成功";
-       }
-       return "注册失败";
+    public Result register(@Valid RegisterDTO dto) {
+        boolean result = userService.register(dto);
+        if (result) {
+            return new SuccessResult<>();
+        }
+        return new FailResult();
     }
 }
