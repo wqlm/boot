@@ -4,9 +4,12 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
-public class RegisterDTO {
+public class RegisterDTO implements Serializable {
+
+    private static final long serialVersionUID = 7847513868092830014L;
 
     /**
      * 用户名
@@ -17,7 +20,7 @@ public class RegisterDTO {
     /**
      * 密码
      */
-    @Length(min =8, max =20, message = "密码必须是8至16位")
+    @Length(min =8, max =20, message = "密码必须是8至20位")
     private String password;
 
 }

@@ -1,4 +1,4 @@
-package com.wqlm.boot.user.confing;
+package com.wqlm.boot.user.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

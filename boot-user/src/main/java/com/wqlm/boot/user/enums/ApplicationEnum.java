@@ -2,17 +2,32 @@ package com.wqlm.boot.user.enums;
 
 import lombok.Getter;
 
-
+/**
+ * 业务结果状态码
+ */
 @Getter
 public enum ApplicationEnum {
 
     SUCCESS("2000","业务执行成功"),
-    FAIL("5000","业务执行失败"),
-    USER_NAME_REPETITION("4001","用户名已存在"),
-    USER_OR_PWD_ERR("4002","用户名或密码错误"),
-    NO_LOGIN("4003","未登陆"),
-    YET_LOGIN("4004","已登陆"),
-    REQUEST_FREQUENTLY("4005","请求太过频繁");
+
+
+
+    PARAMETER_BIND_FAIL("4000","参数绑定失败"),
+    PARAMETER_VERIFY_FAIL("4001","参数校验失败"),
+
+    USER_NAME_REPETITION("4101","用户名已存在"),
+    USER_OR_PWD_ERR("4102","用户名或密码错误"),
+    NO_LOGIN("4103","未登陆"),
+    YET_LOGIN("4104","已登陆"),
+    USER_NO_EXIST("4105","用户不存在"),
+    PASSWORD_ERR("4106","密码错误"),
+
+    REQUEST_FREQUENTLY("4201","请求太过频繁"),
+
+    TOKEN_INVALID("4301", "token失效"),
+
+
+    FAIL("5000","业务执行失败");
 
 
     /**

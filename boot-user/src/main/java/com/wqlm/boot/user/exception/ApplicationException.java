@@ -17,7 +17,7 @@ public class ApplicationException extends RuntimeException {
     }
 
     public ApplicationException(ApplicationEnum applicationEnum) {
-        super(applicationEnum.getMessage());
+        super(applicationEnum.getCode() + " : " + applicationEnum.getMessage());
         this.applicationEnum = applicationEnum;
     }
 
