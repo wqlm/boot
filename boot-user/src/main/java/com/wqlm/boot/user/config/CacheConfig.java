@@ -36,6 +36,7 @@ public class CacheConfig extends CachingConfigurerSupport {
      *
      * @return
      */
+    @Override
     @Bean
     public KeyGenerator keyGenerator() {
         return new KeyGenerator() {

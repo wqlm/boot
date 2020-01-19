@@ -21,8 +21,12 @@ public class BaseRedisOperator {
     private RedisTemplate<String, Object> redisTemplate;
 
 
+    /**
+     * 位置
+     */
     enum Position {
-        BEFORE, AFTER
+        BEFORE,
+        AFTER
     }
 
 
@@ -379,7 +383,13 @@ public class BaseRedisOperator {
      * @return value
      */
     public Object get(String key) {
-        return redisTemplate.opsForValue().get(key);
+
+        try {
+            return redisTemplate.opsForValue().get(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

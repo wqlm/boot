@@ -10,7 +10,6 @@
     </parent>
 
     <artifactId>boot-user</artifactId>
-    <name>user</name>
     <description>Spring Boot 种子项目的用户模块</description>
 
     <dependencies>
@@ -61,7 +60,14 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
         </dependency>
-        
+
+        <!--用于对象拷贝-->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.3</version>
+        </dependency>
+
         <!--test-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
