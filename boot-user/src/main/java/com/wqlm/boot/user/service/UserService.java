@@ -1,5 +1,6 @@
 package com.wqlm.boot.user.service;
 
+import com.wqlm.boot.user.config.ApplicationProperty;
 import com.wqlm.boot.user.dao.UserMapper;
 import com.wqlm.boot.user.dto.LoginDTO;
 import com.wqlm.boot.user.dto.ModifyPasswordDTO;
@@ -12,7 +13,6 @@ import com.wqlm.boot.user.vo.LoginVO;
 import com.wqlm.boot.user.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
@@ -27,8 +27,8 @@ public class UserService {
     @Autowired
     private RedisOperator redisOperator;
 
-    @Value("${sessionTtl}")
-    private int sessionTtl;
+    @Autowired
+    private ApplicationProperty applicationProperty;
 
     /**
      * 用户注册
@@ -136,7 +136,7 @@ public class UserService {
 
         //密码一致登陆成功，将用户信息存储在redis中
         String token = UUID.randomUUID().toString();
-        redisOperator.set(token, user, sessionTtl);
+        redisOperator.set(token, user, applicationProperty.getSessionTtl());
         LoginVO vo = new LoginVO();
         vo.setUserName(user.getUserName());
         vo.setToken(token);

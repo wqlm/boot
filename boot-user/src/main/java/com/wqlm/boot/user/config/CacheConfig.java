@@ -3,7 +3,7 @@ package com.wqlm.boot.user.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -25,9 +25,8 @@ import java.time.Duration;
 @EnableCaching
 public class CacheConfig extends CachingConfigurerSupport {
 
-    @Value("${cache.expireTime}")
-    // 缓存超时时间
-    private int cacheExpireTime;
+    @Autowired
+    private  ApplicationProperty applicationProperty;
 
     /**
      * 配置@Cacheable、@CacheEvict等注解在没有指定Key的情况下，key生成策略
@@ -76,7 +75,7 @@ public class CacheConfig extends CachingConfigurerSupport {
                 // 将 value 序列化成 json
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jacksonSerializer))
                 // 设置缓存过期时间，单位秒
-                .entryTtl(Duration.ofSeconds(cacheExpireTime))
+                .entryTtl(Duration.ofSeconds(applicationProperty.getCacheExpireTime()))
                 // 不缓存空值
                 .disableCachingNullValues();
 
