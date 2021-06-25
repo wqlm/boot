@@ -1,41 +1,32 @@
 package com.wqlm.boot.user.config;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
-// 控制配置类的加载顺序,先加载 RedisAutoConfiguration.class 再加载该类,这样才能覆盖默认的 RedisTemplate
-@AutoConfigureAfter(RedisAutoConfiguration.class)
 public class RedisConfig {
-    /**
-     * 自定义 redisTemplate （方法名一定要叫 redisTemplate 因为 @Bean 是根据方法名配置这个bean的name的）
-     * 默认的 RedisTemplate<K,V> 为泛型，使用时不太方便，自定义为 <String, Object>
-     * 默认序列化方式为 JdkSerializationRedisSerializer 序列化后的内容不方便阅读，改为序列化成 json
-     *
-     * @param redisConnectionFactory
-     * @return
-     */
+    
     @Bean
     RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         // 配置 json 序列化器 - Jackson2JsonRedisSerializer
-        Jackson2JsonRedisSerializer jacksonSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        Jackson2JsonRedisSerializer<Object> jacksonSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+        ObjectMapper objectMapper = new ObjectMapper()
+                // 扩展序列化器，增加对 java.time.* 包中时间类的序列化、反序列化支持
+                .registerModule(new ParameterNamesModule())
+                .registerModule(new Jdk8Module())
+                .registerModule(new JavaTimeModule());
         jacksonSerializer.setObjectMapper(objectMapper);
 
         // 创建并配置自定义 RedisTemplateRedisOperator
         RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(redisConnectionFactory);
         // 将 key 序列化成字符串
         template.setKeySerializer(new StringRedisSerializer());
         // 将 hash 的 key 序列化成字符串
@@ -44,7 +35,34 @@ public class RedisConfig {
         template.setValueSerializer(jacksonSerializer);
         // 将 hash 的 value 序列化成 json
         template.setHashValueSerializer(jacksonSerializer);
-        template.afterPropertiesSet();
+        // 设置连接器
+        template.setConnectionFactory(redisConnectionFactory);
         return template;
     }
+
+    @Bean
+    public HashOperations<String, String, Object> hashOperations(RedisTemplate<String, Object> redisTemplate) {
+        return redisTemplate.opsForHash();
+    }
+
+    @Bean
+    public ValueOperations<String, Object> valueOperations(RedisTemplate<String, Object> redisTemplate) {
+        return redisTemplate.opsForValue();
+    }
+
+    @Bean
+    public ListOperations<String, Object> listOperations(RedisTemplate<String, Object> redisTemplate) {
+        return redisTemplate.opsForList();
+    }
+
+    @Bean
+    public SetOperations<String, Object> setOperations(RedisTemplate<String, Object> redisTemplate) {
+        return redisTemplate.opsForSet();
+    }
+
+    @Bean
+    public ZSetOperations<String, Object> zSetOperations(RedisTemplate<String, Object> redisTemplate) {
+        return redisTemplate.opsForZSet();
+    }
+
 }
